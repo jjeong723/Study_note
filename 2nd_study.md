@@ -151,3 +151,189 @@ K = AB*CD/+
 큐(Queue)는 데이터가 입력되면 입력되는 순서대로 쌓이고, 먼저 들어온 것부터 먼저 사용되는 자료구조이다 (FIFO; First In First Out). 
 큐의 구현은 배열을 사용하거나 (순환 큐), 연결 리스트를 사용한다(링크드 큐).
 ![큐](./1st_image/Queue.png)
+
+### 큐 용도
+컴퓨터 내에서 여러 개의 프로세스가 수행중 일 경우, 새로운 프로세스가 수행되야한다면 기존에 수행되던 프로세스중 가장 먼저 올라온 프로세스를 내보낸다. 이를 운영체제가 큐의 형태로 관리하게된다.
+
+### 큐 코드
+* **python 코드**
+```python
+	def Queue() :
+		queue = []
+		queue.append(1)
+		queue.append(2)
+		queue.append(3)
+		queue.append(4)
+		queue.append(5)
+		print(queue)
+		while queue :
+			print("Get Value :", queue.pop(0))
+	Queue()
+```
+* **코드 결과**
+```
+	[1, 2, 3, 4, 5]
+	Get Value : 1
+	Get Value : 2
+	Get Value : 3
+	Get Value : 4
+	Get Value : 5
+```
+
+## 데크 자료구조
+데크(Deque) 자료구조는 많이 사용되지 않지만, 상당히 재밌는 구조이다. 데크는 리스트 양쪽 끝에서 삽입과 삭제가 모두 이루어지는 자료구조이며, 스택과 큐를 혼합한 구조형태이다. 
+
+![데크](./1st_image/Deque.png)
+
+### 데크의 자료구조 종류
+* 입력 제한 데크(스크롤): 삽입이 한쪽에서만 일어나는 데크
+* 출력 제한 데크(셀프): 삭제가 한쪽에서만 일어나는 데크
+
+## 트리 자료구조
+임의의 노드에서 다른 노드로 가는 경로가 하나 밖에 없을 경우, 이를 트리 자료구조라고 한다. 트리 자료구조는 단 하나의 루트 노드(Root Node)가 있고, 루트노드에서 하위 노드(Sub Node)들이 연결된 비선형 계층 구조이다.
+
+트리 자료구조의 구현은 배열이나 연결 리스트를 사용하며 운영체제의 파일 시스템에서 사용하고 있다.
+
+![트리](./1st_image/Tree.png)
+
+### 이진 트리
+ 이진 트리 구조(Binary Tree)는 트리 자료구조중에서 모든 노드가 최대 2개의 자식 노드를 가질 수 있는 구조이다. 이때, 왼쪽 서브 트리는 루트값보다 작고, 오른쪽 서브 트리는 루트 값보다 크게 구성된다. 주로 빠른 검색이 필요한 곳에 사용되며, **이진 검색 트리**라고 한다.
+
+ #### 이진 트리의 분류
+ * 포화 이진 트리(Full Binary Tree): 레벨의 노드가 꽉찬 트리
+ * 완전 이진 트리(Complete Binary Tree): 마지막 레벨 전까지 노드가 꽉차있고, 마지막 레벨의 왼쪽에서 오른쪽으로 노드가 채워져 있는 트리(*마지막 레벨이 다 채워지지 않아도됨*)
+ * 편향 이진 트리(Skewed Binary Tree): 왼쪽 또는 오른쪽 서브 트리만을 가지는 트리
+
+ #### 이진 트리 사용 및 응용
+
+ #### 이진 트리 응용 사례 및 구현 방법
+
+ #### 이진 트리 코드
+ * **python 코드**
+```python
+	class Node(object): 	# ����� ������ �����ϴ� �κ� 
+		def _ _init_ _(self, data): 
+			self.data = data 
+			self.left = self.right = None
+
+	class BinarySearchTree(object) : 
+		def _ _init_ _(self): 
+			self.root = None 
+
+		def insert(self, data): # ���� Ʈ���� �����͸� �ִ� �κ� 
+			self.root = self._insert_value(self.root, data) 
+			return self.root is not None 
+		
+		def _insert_value(self, node, data) : 
+			if node is None : 
+				node = Node(data) 
+		else : 
+			if data <= node.data: 
+				node.left =self._insert_value(node.left, data) 
+			else : 
+				node.right = self._insert_value(node.right, data) 
+		return node 
+
+		def find(self, key): # ���� Ʈ������ �����͸� ã�� �κ� 
+			return self._find_value(self.root, key) 
+
+		def _find_value(self, root, key): 
+			if root is None or root.data ==key: 
+				return root is not None 
+			elif key <root.data: 
+				return self._find_value(root.left, key) 
+			else : 
+				return self._find_value(root.right, key) 
+		def delete(self, key) : # ���� Ʈ������ �����͸� ����� �κ� 
+			self.root, deleted = self._delete_value(self.root, key) 
+			return deleted 
+		def _delete_value(self, node, key) :
+			if node is None : 
+				return node, False 
+
+			deleted=False 
+			if key == node.data : 
+				deleted = True 
+				if node.left and node.right : 
+					parent, child = node, node.right 
+					while child.left is not None : 
+						parent, child = child, child.left 
+					child.left = node.left 
+					if parent != node: 
+						parent.left=child.right 
+						child.right = node.right 
+					node = child 
+				elif node.left or node.right : 
+					node = node.left or node.right 
+				else: 
+					node = None 
+			elif key < node.data: 
+				node.left, deleted = self._delete_value(node.left, key) 
+			else : 
+				node.right, deleted = self._delete_value(node.right, key) 
+			return node, deleted 
+		
+		def DFTravel(self): # �����͸� ����ϴ� �κ� 
+			def _DFTravel(root): 
+				if root is None: 
+					pass 
+				else : 
+					print(root.data, end=' ') 
+					_DFTravel(root.left) 
+					_DFTravel(root.right) 
+				_DFTravel(self.root) 
+			def LFTravel(self): # �����͸� ����ϴ� �κ� 
+				def _LFTravel(root) : 
+					if root is None : 
+						pass
+					else: 
+						_LFTravel(root.left) 
+						print(root.data, end=' ') 
+						_LFTravel(root.right) 
+				_LFTravel(self.root) 
+
+		def LRTravel(self): # �����͸� ����ϴ� �κ� 
+			def _LRTravel(root) : 
+				if root is None: 
+					pass 
+				else : 
+					_LRTravel(root.left) 
+					_LRTravel(root.right) 
+					print(root.data, end=' ') 
+			_LRTravel(self.root) 
+
+		def layerTravel(self): # �����͸� ����ϴ� �κ� 
+			def _layerTravel(root) : 
+
+				queue = [root] 
+				while queue : 
+					root = queue.pop(0) 
+					if root is not None : 
+						print(root.data, end=' ') 
+						if root.left : 
+							queue.append(root.left) 
+						if root.right: 
+							queue.append(root.right) 
+			_layerTravel(self.root)
+```
+
+ * **결과**
+ ```
+	True
+	False
+	True
+	True
+	False
+
+	@@@@@@@
+	20 8 7 12 9 32 32 65
+	=====
+	7 8 9 12 20 32 32 65
+	*****
+	7 9 12 8 32 65 32 20
+	&&&&&
+	20 8 32 7 12 32 65 9
+ ```
+
+ ### 힙
+ 트리 자료구조의 활용 예로서 힙(Heap)을 보자.
