@@ -442,3 +442,136 @@ K = AB*CD/+
 
 # 정렬 알고리즘
 
+> 정렬 알고리즘은 오름차순 또는 내림차순에 따라 순서를 재배치하는 알고리즘
+
+## 종류
+* 버킷 정렬(Bucket Sort)
+* 선택 정렬(Selection Sort)
+* 삽입 정렬(Insert Sort)
+* 병합 정렬(Merge Sort)
+* 힙 정렬(Heap Sort)
+* 기수 정렬(Radix Sort)
+* 교환 정렬(Exchange Sort)
+* 셀 정렬(Shell Sort)
+* 퀵 정렬(Quick Sort) - C언어 표준 라이브러리에서 제공
+
+## 버컷 정렬 알고리즘
+버킷 정렬(Bucket Sort)는 버킷이라는 단위 기억 장소에 정렬하고 버킷별 키값에 따라 다시 정렬하는 알고리즘
+1. 정렬할 데이터를 확보
+2. 정렬할 데이터 숫자 이상의 공간을 확보 -> 숫자에 해당하는 공간에 차례대로 할당
+3. 데이터를 각자 위치에 삽입
+4. 배열을 처음부터 읽어서 출력
+
+![bucket_sort](./1st_image/bucket_sort.png)
+
+## 기수 정렬 알고리즘
+기수 정렬(Radix Sort)는 버킷 정렬에서 데이터의 모양에 따른 제한이 있는 것을 개선한 정렬이다. 이것은 각 자릿수별로 버킷 정렬을 반복 수행하는 방법이다.
+
+기수 정렬 알고리즘은 간단하며, 버킷 정렬보다 시스템 자원의 낭비가 적으며, 빠르게 정렬할 수 있기때문에 활용도가 높다.
+
+![radix_sort](./1st_image/radix_sort.png)
+
+### 코드
+* **python 코드**
+```python
+	def radix(order):
+		is_sorted = False
+		position = 1
+
+		while not is_sorted:
+			is_sorted = True
+			queue_list = [list() for _ in range(10)]
+
+			for num in order:
+				digit_number = (int) (num/position) % 10
+				queue_list[digit_number].append(num)
+				if is_sorted and digit_number > 0:
+					is_sorted = False
+			index = 0
+
+			for numbers in queue_list:
+				for num in numbers:
+					order[index] = num
+					index +=1
+			position *=10
+
+	x = [5,2,8,6,1,9,3,7]
+	radix[x]
+	print[x]
+```
+
+* **결과**
+```
+	1, 2, 3, 5, 6, 7, 8, 9
+```
+
+## 선택 정렬 알고리즘
+선택 정렬(Selection Sort) 알고리즘은 가장 작은 데이터를 찾아서 가장 앞 데이터와 교환하는 알고리즘이다.
+1. 데이터 중 가장 작은 것을 찾아서 처음에 있는 것과 위치를 교환
+2. 두번째부터 마지막까지의 데이터 중에서 가장 작은 것과 찾아 두번째와 위치 교환
+3. 위 과정 반복
+
+### 코드
+* **python 코드**
+```python
+	def change(x, i, j):
+		x[i], x[j] = x[j], x[i]
+
+	def selectionSort(x):
+		for size in reversed(range(len(x))):
+			max_i = 0
+			for i in range(1, 1+size):
+				if x[i] > x[max_i]:
+					max_i = i
+			change(x, max_i, size)
+
+	x = [5,2,8,6,1,9,3,7]
+	selectionSort(x)
+	print(x)
+```
+
+* **결과**
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 교환 정렬 알고리즘
+교환 정렬(Exchange Sort) 알고리즘은 작은 것부터 큰 순서로 정렬할 경우, 작은 키를 갖는 데이터를 찾아 앞 데이터와 교환하는 알고리즘이다.
+1. 정렬할 데이터를 대상으로 앞에서부터 인접한 두 개의 크기를 비교하여 작은 것이 앞으로 가도록 교환
+2. 나머지 데이터도 비교해가면서 계속 교환
+3. 끝까지 수행후 다시 처음부터 동일한 작업 반복
+4. 큰 수에서 작은 수로 정렬하고 싶으면 반대로 적용.
+
+### 코드
+* **python 코드**
+```python
+	def mergeSort(x):
+		if len(x) > 1:
+			mid = len(x) // 2
+			colx, rowx = x[:mid], x[mid:]
+			mergeSort(colx)
+			mergeSort(rowx)
+
+			coli, rowi, i = 0,0,0
+			while coli < len(colx) and rowi < len(rowx):
+				if colx[coli] < rowx[rowi]:
+					x[i] = colx[coli]
+					coli +=1
+				else:
+					x[i] = rowx[rowi]
+					rowi +=1
+				i +=1
+			x[i:] = colx[coli:] if coli != len(colx) else rowx[rowi:]
+
+	x = [5,2,8,6,1,9,3,7]
+	mergeSort(x)
+	print(x)
+```
+
+* **코드**
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 삽입 정렬 알고리즘
+삽입 정렬(Insert Sort) 알고리즘
