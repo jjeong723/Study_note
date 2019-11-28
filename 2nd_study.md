@@ -261,12 +261,12 @@ K = AB*CD/+
 		def _insert_value(self, node, data) : 
 			if node is None : 
 				node = Node(data) 
-		else : 
-			if data <= node.data: 
-				node.left =self._insert_value(node.left, data) 
 			else : 
-				node.right = self._insert_value(node.right, data) 
-		return node 
+				if data <= node.data: 
+					node.left = self._insert_value(node.left, data) 
+				else : 
+					node.right = self._insert_value(node.right, data) 
+			return node 
 
 		def find(self, key): # ���� Ʈ������ �����͸� ã�� �κ� 
 			return self._find_value(self.root, key) 
@@ -274,13 +274,15 @@ K = AB*CD/+
 		def _find_value(self, root, key): 
 			if root is None or root.data ==key: 
 				return root is not None 
-			elif key <root.data: 
+			elif key < root.data: 
 				return self._find_value(root.left, key) 
 			else : 
-				return self._find_value(root.right, key) 
+				return self._find_value(root.right, key)
+
 		def delete(self, key) : # ���� Ʈ������ �����͸� ����� �κ� 
 			self.root, deleted = self._delete_value(self.root, key) 
-			return deleted 
+			return deleted
+			
 		def _delete_value(self, node, key) :
 			if node is None : 
 				return node, False 
