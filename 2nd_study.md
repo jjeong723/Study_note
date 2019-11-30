@@ -576,4 +576,32 @@ K = AB*CD/+
 ```
 
 ## 삽입 정렬 알고리즘
-삽입 정렬(Insert Sort) 알고리즘
+삽입 정렬(Insert Sort) 알고리즘은 교환 정렬 알고리즘과 비슷하다. 다른 점은 위치 교환이 발생되면, 발생된 대상자 주변것과 계속해서 비교하게된다.
+
+![insert_sort](./1st_image/insert_sort.png)
+
+### 코드
+* **python 코드**
+
+```python
+	def insertSort(x):
+		for size in range(1, len(x)):
+			val = x[size]
+			i = size
+
+			while i>0 and x[i-1] > val:
+				x[i] = x[i-1]
+				i -=1
+			x[i] = val
+
+	x = [5,2,8,6,1,9,3,7]
+	insertSort(x)
+	print(x)
+```
+
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 쉘 정렬 알고리즘
+쉘 정렬 알고리즘(Shell Sort)
