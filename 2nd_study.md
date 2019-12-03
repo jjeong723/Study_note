@@ -604,4 +604,44 @@ K = AB*CD/+
 ```
 
 ## 쉘 정렬 알고리즘
-쉘 정렬 알고리즘(Shell Sort)
+쉘 정렬 알고리즘(Shell Sort)은 삽입 정렬 알고리즘의 느린 속도를 보완하기 위해 만들어진 알고리즘이다. 데이터의 그룹을 나누어 그룹 안에서 쉘 정렬을 수행하고 마지막에 삽입 정렬을 수행하는 알고리즘이다.
+1. 작은 수에서 큰수로 정렬한다고 가정
+2. 정렬 데이터를 2개의 그룹으로 분할 -> 각 그룹당 한개씩 두개를 비교하여 작은 수를 앞으로
+3. 수정된 데이터에서 3개의 그룹로 나누어 동일 작업
+4. 한 그룹에 한개의 데이터가 될때까지 계속
+5. 마지막으로 삽입 정렬
+
+### 코드
+* **python**
+```python
+	def Between(x, start, ranges):
+		for target in range(start+ranges, len(x), ranges):
+			val = x[target]
+			i = target
+			while i > start:
+				if x[i - ranges] > val:
+					x[i] = x[i-ranges]
+				else:
+					break
+				i -=ranges
+			x[i] = val
+	
+	def shellSort(x):
+		ranges = len(x)//2
+		while ranges > 0:
+			for start in range(ranges):
+				Between(x, start, ranges)
+			ranges = ranges//2
+
+	x = [5,2,8,6,1,9,3,7]
+	shellSort(x)
+	print(x)
+```
+
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 병합 정렬 알고리즘
+병합 정렬(Merge Sort) 알고리즘은 데이터를 분할한 다음 각자 계산하고 나중에 다시 합쳐서 정렬하는 알고리즘이다.
+1. 
