@@ -544,37 +544,6 @@ K = AB*CD/+
 3. 끝까지 수행후 다시 처음부터 동일한 작업 반복
 4. 큰 수에서 작은 수로 정렬하고 싶으면 반대로 적용.
 
-### 코드
-* **python 코드**
-```python
-	def mergeSort(x):
-		if len(x) > 1:
-			mid = len(x) // 2
-			colx, rowx = x[:mid], x[mid:]
-			mergeSort(colx)
-			mergeSort(rowx)
-
-			coli, rowi, i = 0,0,0
-			while coli < len(colx) and rowi < len(rowx):
-				if colx[coli] < rowx[rowi]:
-					x[i] = colx[coli]
-					coli +=1
-				else:
-					x[i] = rowx[rowi]
-					rowi +=1
-				i +=1
-			x[i:] = colx[coli:] if coli != len(colx) else rowx[rowi:]
-
-	x = [5,2,8,6,1,9,3,7]
-	mergeSort(x)
-	print(x)
-```
-
-* **코드**
-```
-	1,2,3,5,6,7,8,9
-```
-
 ## 삽입 정렬 알고리즘
 삽입 정렬(Insert Sort) 알고리즘은 교환 정렬 알고리즘과 비슷하다. 다른 점은 위치 교환이 발생되면, 발생된 대상자 주변것과 계속해서 비교하게된다.
 
@@ -645,3 +614,36 @@ K = AB*CD/+
 ## 병합 정렬 알고리즘
 병합 정렬(Merge Sort) 알고리즘은 데이터를 분할한 다음 각자 계산하고 나중에 다시 합쳐서 정렬하는 알고리즘이다.
 1. 
+2. 
+3. 
+
+### 코드
+* **python 코드**
+```python
+	def mergeSort(x):
+		if len(x) > 1:
+			mid = len(x) // 2
+			colx, rowx = x[:mid], x[mid:]
+			mergeSort(colx)
+			mergeSort(rowx)
+
+			coli, rowi, i = 0,0,0
+			while coli < len(colx) and rowi < len(rowx):
+				if colx[coli] < rowx[rowi]:
+					x[i] = colx[coli]
+					coli +=1
+				else:
+					x[i] = rowx[rowi]
+					rowi +=1
+				i +=1
+			x[i:] = colx[coli:] if coli != len(colx) else rowx[rowi:]
+
+	x = [5,2,8,6,1,9,3,7]
+	mergeSort(x)
+	print(x)
+```
+
+* **코드**
+```
+	1,2,3,5,6,7,8,9
+```
