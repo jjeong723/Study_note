@@ -261,12 +261,12 @@ K = AB*CD/+
 		def _insert_value(self, node, data) : 
 			if node is None : 
 				node = Node(data) 
-		else : 
-			if data <= node.data: 
-				node.left =self._insert_value(node.left, data) 
 			else : 
-				node.right = self._insert_value(node.right, data) 
-		return node 
+				if data <= node.data: 
+					node.left = self._insert_value(node.left, data) 
+				else : 
+					node.right = self._insert_value(node.right, data) 
+			return node 
 
 		def find(self, key): # ���� Ʈ������ �����͸� ã�� �κ� 
 			return self._find_value(self.root, key) 
@@ -274,13 +274,15 @@ K = AB*CD/+
 		def _find_value(self, root, key): 
 			if root is None or root.data ==key: 
 				return root is not None 
-			elif key <root.data: 
+			elif key < root.data: 
 				return self._find_value(root.left, key) 
 			else : 
-				return self._find_value(root.right, key) 
+				return self._find_value(root.right, key)
+
 		def delete(self, key) : # ���� Ʈ������ �����͸� ����� �κ� 
 			self.root, deleted = self._delete_value(self.root, key) 
-			return deleted 
+			return deleted
+			
 		def _delete_value(self, node, key) :
 			if node is None : 
 				return node, False 
@@ -442,3 +444,321 @@ K = AB*CD/+
 
 # 정렬 알고리즘
 
+> 정렬 알고리즘은 오름차순 또는 내림차순에 따라 순서를 재배치하는 알고리즘
+
+## 종류
+* 버킷 정렬(Bucket Sort)
+* 선택 정렬(Selection Sort)
+* 삽입 정렬(Insert Sort)
+* 병합 정렬(Merge Sort)
+* 힙 정렬(Heap Sort)
+* 기수 정렬(Radix Sort)
+* 교환 정렬(Exchange Sort)
+* 셀 정렬(Shell Sort)
+* 퀵 정렬(Quick Sort) - C언어 표준 라이브러리에서 제공
+
+## 버컷 정렬 알고리즘
+버킷 정렬(Bucket Sort)는 버킷이라는 단위 기억 장소에 정렬하고 버킷별 키값에 따라 다시 정렬하는 알고리즘
+1. 정렬할 데이터를 확보
+2. 정렬할 데이터 숫자 이상의 공간을 확보 -> 숫자에 해당하는 공간에 차례대로 할당
+3. 데이터를 각자 위치에 삽입
+4. 배열을 처음부터 읽어서 출력
+
+![bucket_sort](./1st_image/bucket_sort.png)
+
+## 기수 정렬 알고리즘
+기수 정렬(Radix Sort)는 버킷 정렬에서 데이터의 모양에 따른 제한이 있는 것을 개선한 정렬이다. 이것은 각 자릿수별로 버킷 정렬을 반복 수행하는 방법이다.
+
+기수 정렬 알고리즘은 간단하며, 버킷 정렬보다 시스템 자원의 낭비가 적으며, 빠르게 정렬할 수 있기때문에 활용도가 높다.
+
+![radix_sort](./1st_image/radix_sort.png)
+
+### 코드
+* **python 코드**
+```python
+	def radix(order):
+		is_sorted = False
+		position = 1
+
+		while not is_sorted:
+			is_sorted = True
+			queue_list = [list() for _ in range(10)]
+
+			for num in order:
+				digit_number = (int) (num/position) % 10
+				queue_list[digit_number].append(num)
+				if is_sorted and digit_number > 0:
+					is_sorted = False
+			index = 0
+
+			for numbers in queue_list:
+				for num in numbers:
+					order[index] = num
+					index +=1
+			position *=10
+
+	x = [5,2,8,6,1,9,3,7]
+	radix[x]
+	print[x]
+```
+
+* **결과**
+```
+	1, 2, 3, 5, 6, 7, 8, 9
+```
+
+## 선택 정렬 알고리즘
+선택 정렬(Selection Sort) 알고리즘은 가장 작은 데이터를 찾아서 가장 앞 데이터와 교환하는 알고리즘이다.
+1. 데이터 중 가장 작은 것을 찾아서 처음에 있는 것과 위치를 교환
+2. 두번째부터 마지막까지의 데이터 중에서 가장 작은 것과 찾아 두번째와 위치 교환
+3. 위 과정 반복
+
+### 코드
+* **python 코드**
+```python
+	def change(x, i, j):
+		x[i], x[j] = x[j], x[i]
+
+	def selectionSort(x):
+		for size in reversed(range(len(x))):
+			max_i = 0
+			for i in range(1, 1+size):
+				if x[i] > x[max_i]:
+					max_i = i
+			change(x, max_i, size)
+
+	x = [5,2,8,6,1,9,3,7]
+	selectionSort(x)
+	print(x)
+```
+
+* **결과**
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 교환 정렬 알고리즘
+교환 정렬(Exchange Sort) 알고리즘은 작은 것부터 큰 순서로 정렬할 경우, 작은 키를 갖는 데이터를 찾아 앞 데이터와 교환하는 알고리즘이다.
+1. 정렬할 데이터를 대상으로 앞에서부터 인접한 두 개의 크기를 비교하여 작은 것이 앞으로 가도록 교환
+2. 나머지 데이터도 비교해가면서 계속 교환
+3. 끝까지 수행후 다시 처음부터 동일한 작업 반복
+4. 큰 수에서 작은 수로 정렬하고 싶으면 반대로 적용.
+
+## 삽입 정렬 알고리즘
+삽입 정렬(Insert Sort) 알고리즘은 교환 정렬 알고리즘과 비슷하다. 다른 점은 위치 교환이 발생되면, 발생된 대상자 주변것과 계속해서 비교하게된다.
+
+![insert_sort](./1st_image/insert_sort.png)
+
+### 코드
+* **python 코드**
+
+```python
+	def insertSort(x):
+		for size in range(1, len(x)):
+			val = x[size]
+			i = size
+
+			while i>0 and x[i-1] > val:
+				x[i] = x[i-1]
+				i -=1
+			x[i] = val
+
+	x = [5,2,8,6,1,9,3,7]
+	insertSort(x)
+	print(x)
+```
+
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 쉘 정렬 알고리즘
+쉘 정렬 알고리즘(Shell Sort)은 삽입 정렬 알고리즘의 느린 속도를 보완하기 위해 만들어진 알고리즘이다. 데이터의 그룹을 나누어 그룹 안에서 쉘 정렬을 수행하고 마지막에 삽입 정렬을 수행하는 알고리즘이다.
+1. 작은 수에서 큰수로 정렬한다고 가정
+2. 정렬 데이터를 2개의 그룹으로 분할 -> 각 그룹당 한개씩 두개를 비교하여 작은 수를 앞으로
+3. 수정된 데이터에서 3개의 그룹로 나누어 동일 작업
+4. 한 그룹에 한개의 데이터가 될때까지 계속
+5. 마지막으로 삽입 정렬
+
+### 코드
+* **python**
+```python
+	def Between(x, start, ranges):
+		for target in range(start+ranges, len(x), ranges):
+			val = x[target]
+			i = target
+			while i > start:
+				if x[i - ranges] > val:
+					x[i] = x[i-ranges]
+				else:
+					break
+				i -=ranges
+			x[i] = val
+	
+	def shellSort(x):
+		ranges = len(x)//2
+		while ranges > 0:
+			for start in range(ranges):
+				Between(x, start, ranges)
+			ranges = ranges//2
+
+	x = [5,2,8,6,1,9,3,7]
+	shellSort(x)
+	print(x)
+```
+
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 병합 정렬 알고리즘
+병합 정렬(Merge Sort) 알고리즘은 데이터를 분할한 다음 각자 계산하고 나중에 다시 합쳐서 정렬하는 알고리즘이다.
+1. 작은 수에서 큰 수로 정렬한다고 가정
+2. 정렬할 데이터를 최소 단위가 될때까지 분할 작업 반복
+3. 분할된 데이터를 대상으로 2개, 4개, 8개씩 병합하면서 정렬을 수행
+4. 최종적으로 2개의 무리가 만들어져 2차 병합 정렬 알고리즘을 적용
+
+### 2차 병합 정렬 알고리즘
+2차 병합 정렬 알고리즘은 이미 정렬된 데이터 무리를 하나로 정렬하기 위한 알고리즘이다.
+1. 각 무리의 가장 앞의 데이터 중 작은 값을 출력
+2. 반복해서 무리의 데이터가 없어질때까지 계속
+
+### 코드
+* **python 코드**
+```python
+	def mergeSort(x):
+		if len(x) > 1:
+			mid = len(x) // 2
+			colx, rowx = x[:mid], x[mid:]
+			mergeSort(colx)
+			mergeSort(rowx)
+
+			coli, rowi, i = 0,0,0
+			while coli < len(colx) and rowi < len(rowx):
+				if colx[coli] < rowx[rowi]:
+					x[i] = colx[coli]
+					coli +=1
+				else:
+					x[i] = rowx[rowi]
+					rowi +=1
+				i +=1
+			x[i:] = colx[coli:] if coli != len(colx) else rowx[rowi:]
+
+	x = [5,2,8,6,1,9,3,7]
+	mergeSort(x)
+	print(x)
+```
+
+* **코드**
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 퀵 정렬 알고리즘
+퀵 정렬(Quick Sort) 알고리즘은 중앙 값 정렬 방식을 확장해서 개발한 방식이다.
+1. 선정된 데이터를 중심으로 데이터를 2등분
+2. 각 분리된 부분의 첫 번째 원소를 기준으로 데이터 분리
+3. 작업 반복
+
+### 코드
+* **python 코드**
+```python
+	def change(x, i, j):
+		x[i], x[j] = x[j], x[i]
+
+	def Select(x, l, r):
+		select_val = x[i]
+		select_idx = l
+		while l <= r:
+			while l <= r and x[l] <= select_val:
+				l +=1
+			while l <= r and x[r] >= select_val:
+				r -=1
+			if l <= r:
+				change(x, l, r)
+				l =+1
+				r -=1
+		change(x, select_idx, r)
+		return r
+	
+	def quickSort(x, pivotMethod = Select):
+		def Qsort(x, first, last):
+			if first < last:
+				splitP = pivotMethod(x, first, last)
+				Qsort(x, first, splitP-1)
+				Qsort(x, splitP+1, last)
+		Qsort(x, 0, len(x)-1)
+	
+	x = [5, 2, 8, 6, 1, 9, 3, 7]
+	quickSort(x)
+	print(x)
+```
+
+* **결과**
+```
+	1,2,3,5,6,7,8,9
+```
+
+## 힙 정렬 알고리즘
+힙 정렬(Heap Sort) 알고리즘은 힙의 개념을 이용하여 정렬하는 알고리즘이다.
+1. 주어진 자료를 기반으로 힙을 구성; 가장 처음 데이터를 최상위 계층으로 설정함.
+2. 최상위 계층 데이터를 빼고 나머지 데이터로 계속 힙을 구성
+3. 반복
+
+## 정렬 알고리즘 선택 기준
+| 상황 | 정렬 알고리즘 | 
+|:--------|:--------:|
+| 항목이 몇개 안된다. | 삽입 정렬 | 
+| 항목이 대부분 정렬되어있다. | 삽입 정렬 |
+| 최저 상황을 고려해야한다. | 힙 정렬 |
+| 평균 정렬 결과가 필요하다. | 퀵 정렬 |
+| 항목의 조밀한 모집단에서 가져왔다. | 버킨 정렬 |
+| 가능한 짧은 코드를 선호한다. | 삽입 정렬 |
+
+# 검색 알고리즘
+
+검색(Search)는 많은 데이터 속에서 원하는 데이터를 찾는 것이다.
+웹에서 문서를 찾는 경우, 신용카드, 버스카드 등에서 사용된다.
+
+* 순차 검색(Sequential Search)
+* 이진 검색(Binary Search)
+* 문자열 검색(String Search)
+* KMP 검색 알고리즘을 사용한 문자열 검색
+* BM 검색 알고리즘을 사용한 문자열 검색
+
+## 순차 검색 알고리즘
+순차 검색(Sequential Search) 알고리즘은 주어진 데이터를 처음부터 검색하는 알고리즘이다.
+
+### 코드
+* **python 코드**
+```python
+	def sequentialSearch(array, value):
+		for i in range(len(array)):
+			if array[i] == value:
+				return i
+		return False
+
+	x = [5,2,8,6,1,9,3,7]
+	i = sequentialSearch(x, 3)
+	print(i)
+```
+
+## 이진 검색 알고리즘
+이진 검색(Binary Search) 알고리즘은 정렬된 데이터를 대상으로 중앙 값을 이용하여 검색하는 알고리즘이다.
+1. 전체 데이터의 중앙 값을 선택
+2. 중앙 값과 찾고자 하는 값을 비교
+
+>if 중앙 값 > 찾고자하는 값 -> 왼쪽 값을 중앙 값으로 하고 2단계 다시 수행  
+>if 중앙 값 < 찾고자하는 값 -> 오른쪽 값을 중앙 값으로 하고 2단계 다시 수행  
+>if 중앙 값 = 찾고자하는 값 -> 종료
+
+## 문자열 검색 알고리즘
+문자열 검색(String Search) 알고리즘은 주어진 문자열에서 찾고자 하는 문자열이 있을때, 문자열 위치를 찾는 알고리즘이다. 
+
+'MYBBAGEL'의 문자열에서 'BAG'을 찾을때, 'MYBBAGEL'에서 'B'를 먼저 찾고 일치하는 곳에서 'A' 그다음 'G'를 순차적으로 있는 경우를 찾는 알고리즘이다.
+
+## KMP 검색 알고리즘
+KMP(Knuth, Morris, Partt) 검색 알고리즘은 문자열 안에서 부분 문자열을 검색할 때 검색에 실패한 위치를 기반으로 비교할 필요 없는 문자열을 건너뛰고, 다음 번 검색 위치를 결정하는 알고리즘이다.
+
+## BM 검색 알고리즘
+BM(Boyer, Moore) 검색 알고리즘은 문자열을 데이터에서 검색할 때 검색할 문자열의 끝에서부터 비교하다가 일치하지 않는 문자를 만나면 검색할 문자열만큼 이동하여 검색을 수행하는 알고리즘이다.
